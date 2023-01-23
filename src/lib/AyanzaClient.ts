@@ -1,5 +1,7 @@
 import { FetchOptions, ofetch } from 'ofetch';
+
 import { SpaceApi } from './Space/SpaceApi';
+import {WidgetApi} from "./Widget/WidgetApi";
 
 type OptionsType = {
     token: string;
@@ -22,7 +24,7 @@ export class AyanzaClient {
                     ['Content-Type']: 'application/json',
                     ['Authorization']: `Bearer ${this.options.token}`
                 }
-            })
+            } )
         }
     }
 
@@ -30,7 +32,7 @@ export class AyanzaClient {
         return new SpaceApi(this.transport);
     }
 
-    widget() {
-
+    get widget() {
+        return new WidgetApi(this.transport);
     }
 }
