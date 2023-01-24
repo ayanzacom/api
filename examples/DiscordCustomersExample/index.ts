@@ -1,4 +1,5 @@
 import {AyanzaClient} from "../../src/lib/AyanzaClient";
+import {WidgetProperties} from "../../src/lib/Widget/WidgetApi";
 
 const express = require('express')
 const cors = require('cors')
@@ -7,13 +8,6 @@ const port = 3098
 
 app.use(cors({ origin: true }));
 
-interface WidgetProperties {
-    [schemaId: string]: {
-        [propertyId: string]: {
-            [k: string]: any;
-        };
-    };
-}
 
 app.get('/', async (req, res) => {
     const api = new AyanzaClient({
@@ -21,7 +15,7 @@ app.get('/', async (req, res) => {
         apiTarget: 'http://127.0.0.1:5005/knoweveryone-4e500/europe-west3/api'
     })
 
-    const team = await api.space.create('Customers x', null, true);
+    const team = await api.space.create('Customers', null, true);
     const space = await api.space.create('Customers database', team.id);
 
     // add property to database

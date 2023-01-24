@@ -9,13 +9,21 @@ export type WidgetResponse = {
 export type WidgetPostRequestBody = {
     title: string,
     parentId: string | null,
-    properties?: any // TODO.. this type o.o
+    properties?: WidgetProperties
 };
 
 export type WidgetPatchRequestBody = {
     title: string,
-    properties?: any // TODO.. this type o.o
+    properties?: WidgetProperties
 };
+
+export interface WidgetProperties {
+    [schemaId: string]: {
+        [propertyId: string]: {
+            [k: string]: any;
+        };
+    };
+}
 
 export class WidgetApi {
     constructor(private transport: AyanzaClientTransport) {}
