@@ -49,10 +49,13 @@ app.get('/', async (req, res) => {
     const customerWidget1 = await api.widget.create('Customer 1', space.id, widgetProperties);
     const customerWidget2 = await api.widget.create('Customer 2',space.id, widgetProperties);
 
+    // try update
+    const updatedCustomerWidget1 = await api.widget.update(customerWidget1.id,"Customer H16");
+
     // try delete
     // const deleted = await api.widget.delete(widget2.id); // how to get response code from ofetch ?
 
-    res.status(200).send({space, customerWidget1, customerWidget2});
+    res.status(200).send({space, customerWidget1, customerWidget2, updatedCustomerWidget1});
 })
 
 app.listen(port, () => {

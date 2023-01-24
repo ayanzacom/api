@@ -37,11 +37,11 @@ export class WidgetApi {
 
         return this.transport(`widget`, {method: 'POST', body: reqBody});
     }
-    update(title: string, properties?: any): Promise<WidgetResponse> {
+    update(id:string, title: string, properties?: any): Promise<WidgetResponse> {
         const reqBody: WidgetPatchRequestBody = {title}
         if(properties) reqBody.properties = properties
 
-        return this.transport(`widget`, {method: 'PATCH'});
+        return this.transport(`widget/${id}`, {method: 'PATCH', body: reqBody});
     }
     delete(id: string): Promise<unknown> {
         return this.transport(`widget/${id}`, {method: 'DELETE'});
