@@ -2,32 +2,35 @@ import { AyanzaClientTransport } from '../AyanzaClient';
 
 export type WorkspaceResponse = {
     id: string,
+    parentId: string | null,
     ownerId: string,
     title: string,
     widgets: string[],
     schemaId: string,
-    schemaProperties: any[],
+    schemaProperties: any[], // TODO type o.o
 };
 
-export type WorkspacePostRequest = {
-    title: string, isTeam?: boolean
+export type WorkspacePostRequestBody = {
+    title: string,
+    parentId: string | null,
+    isTeam?: boolean
 };
 
 export class SpaceApi {
     constructor(private transport: AyanzaClientTransport) {}
 
     get(id: string): Promise<WorkspaceResponse> {
-        return this.transport(`spaces/${id}`);
+        return this.transport(`space/${id}`);
     }
-    create(title: string, isTeam: boolean = false): Promise<WorkspaceResponse> {
-        const reqBody: WorkspacePostRequest = {title, isTeam}
-        return this.transport(`spaces`, {method: 'POST', body: reqBody});
+    create(title: string, parentId: string | null, isTeam: boolean = false): Promise<WorkspaceResponse> {
+        const reqBody: WorkspacePostRequestBody = {title, parentId, isTeam}
+        return this.transport(`space`, {method: 'POST', body: reqBody});
     }
     update(): Promise<WorkspaceResponse> {
-        //TODO..
-        return this.transport(`spaces`, {method: 'PATCH'});
+        // TODO..
+        return this.transport(`space`, {method: 'PATCH'});
     }
     delete(id: string): Promise<unknown> {
-        return this.transport(`spaces/${id}`, {method: 'DELETE'});
+        return this.transport(`space/${id}`, {method: 'DELETE'});
     }
 }

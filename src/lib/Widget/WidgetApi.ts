@@ -6,25 +6,36 @@ export type WidgetResponse = {
     title: string,
 };
 
-export type WidgetPostRequest = {
-    title: string, parentId: string | null
+export type WidgetPostRequestBody = {
+    title: string,
+    parentId: string | null,
+    properties?: any // TODO.. this type o.o
+};
+
+export type WidgetPatchRequestBody = {
+    title: string,
+    properties?: any // TODO.. this type o.o
 };
 
 export class WidgetApi {
     constructor(private transport: AyanzaClientTransport) {}
 
     get(id: string): Promise<WidgetResponse> {
-        return this.transport(`widgets/${id}`);
+        return this.transport(`widget/${id}`);
     }
-    create(title: string, parentId: string | null): Promise<WidgetResponse> {
-        const reqBody: WidgetPostRequest = {title, parentId}
-        return this.transport(`widgets`, {method: 'POST', body: reqBody});
+    create(title: string, parentId: string | null, properties?: any): Promise<WidgetResponse> {
+        const reqBody: WidgetPostRequestBody = {title, parentId}
+        if(properties) reqBody.properties = properties
+
+        return this.transport(`widget`, {method: 'POST', body: reqBody});
     }
-    update(): Promise<WidgetResponse> {
-        //TODO..
-        return this.transport(`widgets`, {method: 'PATCH'});
+    update(title: string, properties?: any): Promise<WidgetResponse> {
+        const reqBody: WidgetPatchRequestBody = {title}
+        if(properties) reqBody.properties = properties
+
+        return this.transport(`widget`, {method: 'PATCH'});
     }
     delete(id: string): Promise<unknown> {
-        return this.transport(`widgets/${id}`, {method: 'DELETE'});
+        return this.transport(`widget/${id}`, {method: 'DELETE'});
     }
 }
