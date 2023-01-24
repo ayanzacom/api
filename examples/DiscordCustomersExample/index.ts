@@ -18,6 +18,16 @@ app.get('/', async (req, res) => {
     const team = await api.space.create('Customers', null, true);
     const space = await api.space.create('Customers database', team.id);
 
+    // TODO Schema should have update end point where i can change properties in one call..
+    // because calling delete/add properties sux
+
+    // remove default workspace properties
+   await api.schema.deleteProperty(space.schemaId, "priority");
+   await api.schema.deleteProperty(space.schemaId, "status");
+   await api.schema.deleteProperty(space.schemaId, "assignee");
+   await api.schema.deleteProperty(space.schemaId, "due_date");
+   await api.schema.deleteProperty(space.schemaId, "owner");
+
     // add properties to database
     const supportProp = await api.schema.addProperty(space.schemaId, "string", "Support");
     const roleProp = await api.schema.addProperty(space.schemaId, "string", "Role");

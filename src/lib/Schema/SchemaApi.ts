@@ -22,8 +22,7 @@ export class SchemaApi {
         const reqBody: SchemaAddPropertyBodyRequest = {schemaId, name, type}
         return this.transport(`schema/property`, {method: 'POST', body: reqBody});
     }
-    deleteProperty(): Promise<unknown> {
-        //TODO..
-        return this.transport(`schema/property`, {method: 'DELETE'});
+    deleteProperty(schemaId: string, propertyId: string): Promise<unknown> {
+        return this.transport(`schema/${schemaId}/property/${propertyId}`, {method: 'DELETE'});
     }
 }
