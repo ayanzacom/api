@@ -18,22 +18,31 @@ app.get('/', async (req, res) => {
     const team = await api.space.create('Customers', null, true);
     const space = await api.space.create('Customers database', team.id);
 
-    // add property to database
-    const newProperty = await api.schema.addProperty(space.schemaId, "number", "My number name");
+    // add properties to database
+    const supportProp = await api.schema.addProperty(space.schemaId, "string", "Support");
+    const roleProp = await api.schema.addProperty(space.schemaId, "string", "Role");
+    const teamSizeProp = await api.schema.addProperty(space.schemaId, "string", "Team size");
+    const orgSizeProp = await api.schema.addProperty(space.schemaId, "string", "Organization Size");
+    const teamAffProp = await api.schema.addProperty(space.schemaId, "string", "Team affiliation");
+    const experienceProp = await api.schema.addProperty(space.schemaId, "string", "Wanted to experience first");
 
     // create widget properties
     const widgetProperties: WidgetProperties = {}
     widgetProperties[space.schemaId] = {}
-    widgetProperties[space.schemaId][newProperty.id] = {value: 12345}
+    widgetProperties[space.schemaId][supportProp.id] = {value: "Work"}
+    widgetProperties[space.schemaId][roleProp.id] = {value: "Business owner"}
+    widgetProperties[space.schemaId][teamSizeProp.id] = {value: "11-15"}
+    widgetProperties[space.schemaId][orgSizeProp.id] = {value: "100-249"}
+    widgetProperties[space.schemaId][teamAffProp.id] = {value: "CEO"}
+    widgetProperties[space.schemaId][experienceProp.id] = {value: "Set goals"}
 
-    const widget1 = await api.widget.create('Customer 1', space.id, widgetProperties);
-    const widget2 = await api.widget.create('Customer 2',space.id);
-    const widget3 = await api.widget.create('Customer 3',space.id);
+    const customerWidget1 = await api.widget.create('Customer 1', space.id, widgetProperties);
+    const customerWidget2 = await api.widget.create('Customer 2',space.id, widgetProperties);
 
     // try delete
-    // const deleted = await api.widget.delete(widget2.id); // how to get response code ?
+    // const deleted = await api.widget.delete(widget2.id); // how to get response code from ofetch ?
 
-    res.status(200).send({space, widget1, widget2, widget3});
+    res.status(200).send({space, customerWidget1, customerWidget2});
 })
 
 app.listen(port, () => {
