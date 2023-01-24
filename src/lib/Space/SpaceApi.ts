@@ -19,8 +19,9 @@ export class SpaceApi {
     get(id: string): Promise<WorkspaceResponse> {
         return this.transport(`spaces/${id}`);
     }
-    create(request: WorkspacePostRequest): Promise<WorkspaceResponse> {
-        return this.transport(`spaces`, {method: 'POST', body: {title: request.title, isTeam: request?.isTeam ?? false}});
+    create(title: string, isTeam: boolean = false): Promise<WorkspaceResponse> {
+        const reqBody: WorkspacePostRequest = {title, isTeam}
+        return this.transport(`spaces`, {method: 'POST', body: reqBody});
     }
     update(): Promise<WorkspaceResponse> {
         //TODO..

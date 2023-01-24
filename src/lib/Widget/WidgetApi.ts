@@ -7,7 +7,7 @@ export type WidgetResponse = {
 };
 
 export type WidgetPostRequest = {
-    title: string, parentId?: string
+    title: string, parentId: string | null
 };
 
 export class WidgetApi {
@@ -16,8 +16,9 @@ export class WidgetApi {
     get(id: string): Promise<WidgetResponse> {
         return this.transport(`widgets/${id}`);
     }
-    create(request: WidgetPostRequest): Promise<WidgetResponse> {
-        return this.transport(`widgets`, {method: 'POST', body: {title: request.title, parentId: request.parentId}});
+    create(title: string, parentId: string | null): Promise<WidgetResponse> {
+        const reqBody: WidgetPostRequest = {title, parentId}
+        return this.transport(`widgets`, {method: 'POST', body: reqBody});
     }
     update(): Promise<WidgetResponse> {
         //TODO..
