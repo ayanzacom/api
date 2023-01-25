@@ -26,10 +26,11 @@ export class SpaceApi {
         const reqBody: WorkspacePostRequestBody = {title, parentId, isTeam}
         return this.transport(`space`, {method: 'POST', body: reqBody});
     }
-    update(): Promise<WorkspaceResponse> {
-        // TODO..
-        return this.transport(`space`, {method: 'PATCH'});
-    }
+    // TODO..
+    // update(): Promise<WorkspaceResponse> {
+    //
+    //     return this.transport(`space`, {method: 'PATCH'});
+    // }
     delete(id: string): Promise<unknown> {
         return this.transport(`space/${id}`, {method: 'DELETE'});
     }
