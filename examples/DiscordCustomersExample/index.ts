@@ -20,9 +20,6 @@ app.get('/', async (req, res) => {
     const team = await api.space.create('Customers', null, true);
     const space = await api.space.create('Customers database', team.id);
 
-    // TODO Schema should have update end point where i can change properties in one call..
-    // because calling delete/add properties sux
-
     // remove default workspace properties
    await api.schema.deleteProperty(space.schemaId, "priority");
    await api.schema.deleteProperty(space.schemaId, "status");
@@ -48,11 +45,11 @@ app.get('/', async (req, res) => {
     widgetProperties[space.schemaId][teamAffProp.id] = {value: "CEO"}
     widgetProperties[space.schemaId][experienceProp.id] = {value: "Set goals"}
 
-    const customerWidget1 = await api.widget.create('Customer 1', space.id, widgetProperties);
-    const customerWidget2 = await api.widget.create('Customer 2',space.id, widgetProperties);
+    const customerWidget1 = await api.widget.create('Customer 1', space.id, widgetProperties, "test content of customer 1");
+    const customerWidget2 = await api.widget.create('Customer 2',space.id, widgetProperties, "test content of customer 2");
 
     // try update
-    const updatedCustomerWidget1 = await api.widget.update(customerWidget1.id,"Customer H16");
+    const updatedCustomerWidget1 = await api.widget.update(customerWidget1.id,"Customer H16", undefined," customer h16" );
 
     // try delete
     // const deleted = await api.widget.delete(widget2.id); // how to get response code from ofetch ?
