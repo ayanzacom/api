@@ -12,10 +12,18 @@ export type SchemaAddPropertyResponse = {
     name: string,
 };
 
+export type SchemaGetResponse = {
+    id: string,
+    ownerId: string,
+    organizationId: string,
+    properties: any[], // TODO.. type
+    isPublishedOnInternet: boolean,
+};
+
 export class SchemaApi {
     constructor(private transport: AyanzaClientTransport) {}
 
-    get(id: string): Promise<unknown> {
+    get(id: string): Promise<SchemaGetResponse> {
         return this.transport(`schema/${id}`);
     }
     addProperty(schemaId: string, type: string, name: string, propertyId?: string): Promise<SchemaAddPropertyResponse> {
