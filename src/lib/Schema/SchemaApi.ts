@@ -4,6 +4,7 @@ export type SchemaAddPropertyBodyRequest = {
     id?: string,
     type: string,
     name: string,
+    options?: any,
 };
 
 export type SchemaAddPropertyResponse = {
@@ -26,9 +27,10 @@ export class SchemaApi {
     get(id: string): Promise<SchemaGetResponse> {
         return this.transport(`schema/${id}`);
     }
-    addProperty(schemaId: string, type: string, name: string, propertyId?: string): Promise<SchemaAddPropertyResponse> {
+    addProperty(schemaId: string, type: string, name: string, propertyId?: string, options?: any): Promise<SchemaAddPropertyResponse> {
         const reqBody: SchemaAddPropertyBodyRequest = {name, type}
         if(propertyId) reqBody.id = propertyId
+        if(options) reqBody.options = options
         return this.transport(`schema/${schemaId}/property`, {method: 'POST', body: reqBody});
     }
     deleteProperty(schemaId: string, propertyId: string): Promise<unknown> {
