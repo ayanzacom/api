@@ -1,8 +1,9 @@
 import { AyanzaClientTransport } from '../AyanzaClient';
 
 export type SchemaAddPropertyBodyRequest = {
-    name: string,
+    id?: string,
     type: string,
+    name: string,
 };
 
 export type SchemaAddPropertyResponse = {
@@ -17,8 +18,9 @@ export class SchemaApi {
     get(id: string): Promise<unknown> {
         return this.transport(`schema/${id}`);
     }
-    addProperty(schemaId: string, type: string,name: string): Promise<SchemaAddPropertyResponse> {
+    addProperty(schemaId: string, type: string, name: string, propertyId?: string): Promise<SchemaAddPropertyResponse> {
         const reqBody: SchemaAddPropertyBodyRequest = {name, type}
+        if(propertyId) reqBody.id = propertyId
         return this.transport(`schema/${schemaId}/property`, {method: 'POST', body: reqBody});
     }
     deleteProperty(schemaId: string, propertyId: string): Promise<unknown> {
