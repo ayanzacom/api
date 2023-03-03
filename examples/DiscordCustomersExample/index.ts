@@ -51,10 +51,12 @@ app.get('/', async (req, res) => {
     // try update
     const updatedCustomerWidget1 = await api.widget.update(customerWidget1.id,"Customer H16", undefined," customer h16" );
 
-    // try delete
-    // const deleted = await api.widget.delete(widget2.id); // how to get response code from ofetch ?
+    const searchCustomer1 = await api.widget.search([{property: 'title', operator: '==', value:'Customer H16'}]);
 
-    res.status(200).send({space, customerWidget1, customerWidget2, updatedCustomerWidget1});
+    // try delete
+    // const deleted = await api.widget.delete(widget2.id);
+
+    res.status(200).send({space, customerWidget1, customerWidget2, updatedCustomerWidget1, searchCustomer1});
 })
 
 app.listen(port, () => {
