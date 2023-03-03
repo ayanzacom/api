@@ -7,8 +7,11 @@ import {
 
 export type WidgetResponse = {
     id: string,
+    archived: boolean,
     ownerId: string,
     title: string,
+    createdAt: string,
+    properties: WidgetProperties[]
 };
 
 export type WidgetPostRequestBody = {
