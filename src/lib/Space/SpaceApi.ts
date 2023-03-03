@@ -16,6 +16,27 @@ export type WorkspacePostRequestBody = {
     isTeam?: boolean
 };
 
+export type SearchQuery ={
+    property: string,
+    operator:
+        '<' |
+        '<=' |
+        '==' |
+        '>' |
+        '>=' |
+        '!=' |
+        'array-contains' |
+        'array-contains-any' |
+        'in' |
+        'not-in'
+    ,
+    value: unknown,
+};
+
+export type SearchRequestBody = {
+    queries: SearchQuery[]
+}
+
 export class SpaceApi {
     constructor(private transport: AyanzaClientTransport) {}
 
@@ -33,5 +54,9 @@ export class SpaceApi {
     // }
     delete(id: string): Promise<unknown> {
         return this.transport(`space/${id}`, {method: 'DELETE'});
+    }
+    search(queries: SearchQuery[]): Promise<WorkspaceResponse[]>{
+        const reqBody: SearchRequestBody = {queries: queries}
+        return this.transport(`space/search`, {method: 'POST', body: reqBody});
     }
 }
