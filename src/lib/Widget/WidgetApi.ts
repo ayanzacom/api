@@ -10,7 +10,7 @@ export type WidgetResponse = {
     ownerId: string,
     title: string,
     createdAt: string,
-    properties: WidgetProperties[]
+    properties: WidgetProperties
 };
 
 export type WidgetPostRequestBody = {
