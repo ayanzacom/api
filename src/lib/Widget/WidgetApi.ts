@@ -2,7 +2,6 @@ import { AyanzaClientTransport } from '../AyanzaClient';
 import {
     SearchQuery,
     SearchRequestBody,
-    WorkspaceResponse
 } from "../Space/SpaceApi";
 
 export type WidgetResponse = {
@@ -55,7 +54,7 @@ export class WidgetApi {
 
         return this.transport(`widget/${id}`, {method: 'PATCH', body: reqBody});
     }
-    search(queries: SearchQuery[]): Promise<WorkspaceResponse[]>{
+    search(queries: SearchQuery[]): Promise<WidgetResponse[]>{
         const reqBody: SearchRequestBody = {queries: queries}
         return this.transport(`widget/search`, {method: 'POST', body: reqBody});
     }
