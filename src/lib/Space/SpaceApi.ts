@@ -1,11 +1,12 @@
 import { AyanzaClientTransport } from '../AyanzaClient';
+import {WidgetResponse} from "../Widget/WidgetApi";
 
 export type WorkspaceResponse = {
     id: string,
     parentId: string | null,
     ownerId: string,
     title: string,
-    widgets: string[],
+    widgets: WidgetResponse[],
     schemaId: string,
     schemaProperties: any[], // TODO type o.o
 };
@@ -43,7 +44,7 @@ export class SpaceApi {
     get(id: string): Promise<WorkspaceResponse> {
         return this.transport(`space/${id}`);
     }
-    create(title: string, parentId: string | null, isTeam: boolean = false): Promise<WorkspaceResponse> {
+    create(title: string, parentId: string | null, isTeam = false): Promise<WorkspaceResponse> {
         const reqBody: WorkspacePostRequestBody = {title, parentId, isTeam}
         return this.transport(`space`, {method: 'POST', body: reqBody});
     }
