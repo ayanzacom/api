@@ -52,11 +52,12 @@ export class SpaceApi {
 
         return this.transport(`space`, {method: 'POST', body: reqBody});
     }
-    // TODO..
-    // update(): Promise<WorkspaceResponse> {
-    //
-    //     return this.transport(`space`, {method: 'PATCH'});
-    // }
+    update(id: string, title: string, parentId: string | null, isTeam: boolean, settings?: any): Promise<WorkspaceResponse> {
+        const reqBody: WorkspacePostRequestBody = {title, parentId, isTeam}
+        if(settings) reqBody.settings = settings
+
+        return this.transport(`space/${id}`, {method: 'PATCH', body: reqBody});
+    }
     delete(id: string): Promise<unknown> {
         return this.transport(`space/${id}`, {method: 'DELETE'});
     }
