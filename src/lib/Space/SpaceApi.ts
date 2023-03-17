@@ -8,13 +8,15 @@ export type WorkspaceResponse = {
     title: string,
     widgets: WidgetResponse[],
     schemaId: string,
-    schemaProperties: any[], // TODO type o.o
+    schemaProperties: any[], // TODO type
+    settings?: any // TODO type WorkspaceSettings & ContentMetaSettings;
 };
 
 export type WorkspacePostRequestBody = {
     title: string,
     parentId: string | null,
     isTeam?: boolean
+    settings?: any // TODO type WorkspaceSettings & ContentMetaSettings;
 };
 
 export type SearchQuery ={
@@ -44,8 +46,10 @@ export class SpaceApi {
     get(id: string): Promise<WorkspaceResponse> {
         return this.transport(`space/${id}`);
     }
-    create(title: string, parentId: string | null, isTeam = false): Promise<WorkspaceResponse> {
+    create(title: string, parentId: string | null, isTeam = false, settings?: any): Promise<WorkspaceResponse> {
         const reqBody: WorkspacePostRequestBody = {title, parentId, isTeam}
+        if(settings) reqBody.settings = settings
+
         return this.transport(`space`, {method: 'POST', body: reqBody});
     }
     // TODO..
