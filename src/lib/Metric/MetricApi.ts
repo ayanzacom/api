@@ -1,8 +1,8 @@
 import {AyanzaClientTransport} from "../AyanzaClient";
 
 export type MetricResponse = {
-    time: number,
-    value: number | string,
+    createdAt: number,
+    value: number,
 };
 
 export class MetricApi {
@@ -11,7 +11,7 @@ export class MetricApi {
     get(metricId: string): Promise<MetricResponse[]> {
         return this.transport(`metric/${metricId}`);
     }
-    create(metricId: string, reqBody: {value: string | number}): Promise<MetricResponse> {
+    create(metricId: string, reqBody: {value: number}): Promise<MetricResponse> {
         return this.transport(`metric/${metricId}`, {method: 'POST', body: reqBody});
     }
 }
