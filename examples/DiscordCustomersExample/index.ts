@@ -1,4 +1,4 @@
-import {AyanzaClient} from "../../src/lib/AyanzaClient";
+import {AyanzaClient} from "../../src";
 import {WidgetProperties} from "../../src/lib/Widget/WidgetApi";
 import * as dotenv from 'dotenv'
 
@@ -19,6 +19,8 @@ app.get('/', async (req, res) => {
 
     const team = await api.space.create('Customers', null, true);
     const space = await api.space.create('Customers database', team.id);
+
+    await api.space.update(space.id, "customers edited", team.id, false)
 
     // remove default workspace properties
    await api.schema.deleteProperty(space.schemaId, "priority");
@@ -57,6 +59,17 @@ app.get('/', async (req, res) => {
     // const deleted = await api.widget.delete(widget2.id);
 
     res.status(200).send({space, customerWidget1, customerWidget2, updatedCustomerWidget1, searchCustomer1});
+})
+
+app.get('/metrics', async (req, res) => {
+    const api = new AyanzaClient({
+        token: process.env.API_TOKEN as string,
+        apiTarget: 'http://127.0.0.1:5005/knoweveryone-4e500/europe-west4/api'
+    })
+
+    const metric = await api.metric.create('40EPkTvfRa8P3uhoWjVo', {value: 150});
+    const metrics = await api.metric.get('40EPkTvfRa8P3uhoWjVo');
+    res.status(200).send({metric, metrics});
 })
 
 app.listen(port, () => {
