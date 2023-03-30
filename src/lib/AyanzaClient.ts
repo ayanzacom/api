@@ -1,8 +1,9 @@
 import { FetchOptions, ofetch } from 'ofetch';
 
+import {MetricApi} from "./Metric/MetricApi";
+import {SchemaApi} from "./Schema/SchemaApi";
 import { SpaceApi } from './Space/SpaceApi';
 import {WidgetApi} from "./Widget/WidgetApi";
-import {SchemaApi} from "./Schema/SchemaApi";
 
 type OptionsType = {
     token: string;
@@ -39,5 +40,9 @@ export class AyanzaClient {
 
     get schema() {
         return new SchemaApi(this.transport);
+    }
+
+    get metric() {
+        return new MetricApi(this.transport);
     }
 }
