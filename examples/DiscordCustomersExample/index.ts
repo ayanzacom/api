@@ -67,9 +67,15 @@ app.get('/metrics', async (req, res) => {
         apiTarget: 'http://127.0.0.1:5005/knoweveryone-4e500/europe-west4/api'
     })
 
-    const metric = await api.metric.create('40EPkTvfRa8P3uhoWjVo', {value: 150});
-    const metrics = await api.metric.get('40EPkTvfRa8P3uhoWjVo');
-    res.status(200).send({metric, metrics});
+    const slug = "revenue2"
+    await api.metric.createSlug({id: "atgFf0J8QCPNj7NcmkQ8", slug: slug})
+
+    await api.metric.update( {id: "atgFf0J8QCPNj7NcmkQ8", value: 9999});
+    await api.metric.update( {id: slug, value: 99999});
+
+    await api.metric.updateBulk({"4445": {slug: 6666}, "875441": {"atgFf0J8QCPNj7NcmkQ8": 6666}})
+
+    res.status(200).send({success: true});
 })
 
 app.listen(port, () => {
