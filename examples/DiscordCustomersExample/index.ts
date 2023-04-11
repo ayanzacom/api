@@ -67,13 +67,12 @@ app.get('/metrics', async (req, res) => {
         apiTarget: 'http://127.0.0.1:5005/knoweveryone-4e500/europe-west4/api'
     })
 
-    const slug = "revenue2"
-    await api.metric.createSlug({id: "atgFf0J8QCPNj7NcmkQ8", slug: slug})
+    const metricId1 = "XXXXX";
+    const metricId2 = "XXXX";
+    const slug = "revenue"
 
-    await api.metric.update( {id: "atgFf0J8QCPNj7NcmkQ8", value: 9999});
-    await api.metric.update( {id: slug, value: 99999});
-
-    await api.metric.updateBulk({"4445": {slug: 6666}, "875441": {"atgFf0J8QCPNj7NcmkQ8": 6666}})
+    await api.metric.createSlug({id: metricId1, slug: slug})
+    await api.metric.update({"1": {[slug]: 100, [metricId2]: 500}, "2": {[slug]: 160}})
 
     res.status(200).send({success: true});
 })
