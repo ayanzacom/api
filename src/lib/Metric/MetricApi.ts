@@ -25,7 +25,7 @@ export class MetricApi {
      * @returns A Promise that resolves to void.
      */
     update(request: Record<string, Record<string, number>>){
-        return this.transport(`metric/update/bulk`, {method: 'POST', body: request});
+        return this.transport(`metric/update`, {method: 'POST', body: request});
     }
 
     /**
