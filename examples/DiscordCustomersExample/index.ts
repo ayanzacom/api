@@ -71,7 +71,13 @@ app.get('/metrics', async (req, res) => {
     const metricId2 = "XXXX";
     const slug = "revenue"
 
+    // You can create slugs to access metrics by your custom name
     await api.metric.createSlug({id: metricId1, slug: slug})
+
+    // Update single value with a single timestamp
+    await api.metric.update({"1": {[slug]: 100}})
+
+    // Update multiple values with a multiple timestamps
     await api.metric.update({"1": {[slug]: 100, [metricId2]: 500}, "2": {[slug]: 160}})
 
     res.status(200).send({success: true});
