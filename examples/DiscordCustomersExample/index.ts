@@ -75,10 +75,10 @@ app.get('/metrics', async (req, res) => {
     await api.metric.createSlug({id: metricId1, slug: slug})
 
     // Update single value with a single timestamp
-    await api.metric.update({"1": {[slug]: 100}})
+    await api.metric.update({"1681378319636": {[slug]: 100}})
 
     // Update multiple values with a multiple timestamps
-    await api.metric.update({"1": {[slug]: 100, [metricId2]: 500}, "2": {[slug]: 160}})
+    await api.metric.update({"1681378325171": {[slug]: 100, [metricId2]: 500}, "1681378332754": {[slug]: 160}})
 
     res.status(200).send({success: true});
 })
