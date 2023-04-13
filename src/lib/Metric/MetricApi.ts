@@ -3,6 +3,7 @@ import {AyanzaClientTransport} from "../AyanzaClient";
 export type MetricResponse = {
     createdAt: number,
     value: number,
+    creationSource: string,
 };
 
 export class MetricApi {
