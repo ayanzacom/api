@@ -11,10 +11,53 @@ app.use(cors({ origin: true }));
 const dotEnvPath = '../../.env'
 dotenv.config({ path: dotEnvPath})
 
-app.get('/', async (req, res) => {
+// Example
+// Create single task
+app.get('/createTask', async (req, res) => {
     const api = new AyanzaClient({
-        token: process.env.API_TOKEN as string,
-        apiTarget: 'http://127.0.0.1:5005/knoweveryone-4e500/europe-west4/api'
+        token: process.env.API_TOKEN as string, // Your API token
+    })
+
+    // Create required widget properties
+    // Task need to have set status in order to be listed in MY WORK
+    const widgetProperties: WidgetProperties = {}
+    widgetProperties['WORK'] = {}
+    widgetProperties['WORK']['status'] = {value: {category: 'Active', id: 'TODO'}}
+
+    const myTask = await api.widget.create('My task title', null, widgetProperties, "This is the content of my task");
+
+    res.status(200).send({myTask});
+})
+
+// Example:
+// Update OKR metrics with slug or without it
+app.get('/metrics', async (req, res) => {
+    const api = new AyanzaClient({
+        token: process.env.API_TOKEN as string, // Your API token
+    })
+
+    const metricId1 = "XXXXX";
+    const metricId2 = "XXXX";
+    const slug = "revenue"
+
+    // You can create slugs to access metrics by your custom name
+    await api.metric.createSlug({id: metricId1, slug: slug})
+
+    // Update single value with a single timestamp
+    await api.metric.update({"1681378319636": {[slug]: 100}})
+
+    // Update multiple values with a multiple timestamps
+    await api.metric.update({"1681378325171": {[slug]: 100, [metricId2]: 500}, "1681378332754": {[slug]: 160}})
+
+    res.status(200).send({success: true});
+})
+
+// Example:
+// Create customers space (database) with custom schema properties
+// and add widgets (items) to it
+app.get('/customers', async (req, res) => {
+    const api = new AyanzaClient({
+        token: process.env.API_TOKEN as string, // Your API token
     })
 
     const team = await api.space.create('Customers', null, true);
@@ -23,11 +66,11 @@ app.get('/', async (req, res) => {
     await api.space.update(space.id, "customers edited", team.id, false)
 
     // remove default workspace properties
-   await api.schema.deleteProperty(space.schemaId, "priority");
-   await api.schema.deleteProperty(space.schemaId, "status");
-   await api.schema.deleteProperty(space.schemaId, "assignee");
-   await api.schema.deleteProperty(space.schemaId, "due_date");
-   await api.schema.deleteProperty(space.schemaId, "owner");
+    await api.schema.deleteProperty(space.schemaId, "priority");
+    await api.schema.deleteProperty(space.schemaId, "status");
+    await api.schema.deleteProperty(space.schemaId, "assignee");
+    await api.schema.deleteProperty(space.schemaId, "due_date");
+    await api.schema.deleteProperty(space.schemaId, "owner");
 
     // add properties to database
     const supportProp = await api.schema.addProperty(space.schemaId, "string", "Support");
@@ -59,28 +102,6 @@ app.get('/', async (req, res) => {
     // const deleted = await api.widget.delete(widget2.id);
 
     res.status(200).send({space, customerWidget1, customerWidget2, updatedCustomerWidget1, searchCustomer1});
-})
-
-app.get('/metrics', async (req, res) => {
-    const api = new AyanzaClient({
-        token: process.env.API_TOKEN as string,
-        apiTarget: 'http://127.0.0.1:5005/knoweveryone-4e500/europe-west4/api'
-    })
-
-    const metricId1 = "XXXXX";
-    const metricId2 = "XXXX";
-    const slug = "revenue"
-
-    // You can create slugs to access metrics by your custom name
-    await api.metric.createSlug({id: metricId1, slug: slug})
-
-    // Update single value with a single timestamp
-    await api.metric.update({"1681378319636": {[slug]: 100}})
-
-    // Update multiple values with a multiple timestamps
-    await api.metric.update({"1681378325171": {[slug]: 100, [metricId2]: 500}, "1681378332754": {[slug]: 160}})
-
-    res.status(200).send({success: true});
 })
 
 app.listen(port, () => {
