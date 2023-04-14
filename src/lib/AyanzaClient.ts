@@ -10,7 +10,7 @@ type OptionsType = {
     apiTarget?: string;
 }
 
-const DEFAULT_API_TARGET = 'https://ayanza.com/api';
+const DEFAULT_API_TARGET = 'https://api.ayanza.com';
 export type AyanzaClientTransport = <T>(target: string, options?: FetchOptions) => Promise<T>;
 export class AyanzaClient {
     constructor(private options: OptionsType) {}
