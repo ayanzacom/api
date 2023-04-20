@@ -6,6 +6,12 @@ export type MetricResponse = {
     creationSource: string,
 };
 
+export type MetricRequestObject = {
+    timestamp?: number,
+    metricId: string,
+    value:number
+};
+
 export class MetricApi {
     constructor(private transport: AyanzaClientTransport) {}
 
@@ -20,13 +26,17 @@ export class MetricApi {
     }
 
     /**
-     * Updates the values of one or multiple metrics.
-     *
-     * @param request - An object containing key-value pairs where the keys represent timestamps (in milliseconds) as a string and the values represent records containing metric IDs/slugs and new values.
-     * @returns A Promise that resolves to void.
+     * Updates the value of one metric.
      */
-    update(request: Record<string, Record<string, number>>){
+    update(request: MetricRequestObject){
         return this.transport(`metric/update`, {method: 'POST', body: request});
+    }
+
+    /**
+     * Updates the values of multiple metrics.
+     */
+    updateBulk(request: MetricRequestObject[]){
+        return this.transport(`metric/update-bulk`, {method: 'POST', body: request});
     }
 
     /**

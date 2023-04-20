@@ -30,24 +30,48 @@ app.get('/createTask', async (req, res) => {
 })
 
 // Example:
-// Update OKR metrics with slug or without it
+// Update one or multiple OKR metrics with slug or without it
 app.get('/metrics', async (req, res) => {
     const api = new AyanzaClient({
         token: process.env.API_TOKEN as string, // Your API token
+        apiTarget: 'http://127.0.0.1:5005/knoweveryone-4e500/europe-west4/api'
     })
 
-    const metricId1 = "XXXXX";
-    const metricId2 = "XXXX";
-    const slug = "revenue"
+    const metricId1 = "PBEIiwC0EBdfFPzht2O7";
+    const metricId2 = "iW94y1ikYzBMd3Z4NFmZ";
+    // const slug = "revenue"
 
     // You can create slugs to access metrics by your custom name
-    await api.metric.createSlug({id: metricId1, slug: slug})
+    // await api.metric.createSlug({id: metricId1, slug: slug})
 
-    // Update single value with a single timestamp
-    await api.metric.update({"1681378319636": {[slug]: 100}})
+    // Update single value with a single timestamp in millis
+    await api.metric.update({
+        "timestamp": 1681378325171,
+        "metricId": metricId1,
+        "value": 5001
+    })
+
+    // update the same metric with its slug
+    // await api.metric.update({
+    //     "timestamp": 1681378325171,
+    //     "metricId": slug,
+    //     "value": 5002
+    // })
 
     // Update multiple values with a multiple timestamps
-    await api.metric.update({"1681378325171": {[slug]: 100, [metricId2]: 500}, "1681378332754": {[slug]: 160}})
+    await api.metric.updateBulk([{
+        "timestamp": 1681378325171,
+        "metricId": metricId1,
+        "value": 6000
+    }, {
+        "timestamp": 1681378325171,
+        "metricId": metricId1,
+        "value": 7000
+    }, {
+        "timestamp": 1681378325171,
+        "metricId": metricId2,
+        "value": 8000
+    }])
 
     res.status(200).send({success: true});
 })
