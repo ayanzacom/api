@@ -9,7 +9,7 @@ The AyanzaClient serves as the primary interface for interacting with the Ayanza
 Here is a sample usage of the AyanzaClient:
 
 ```typescript
-import { AyanzaClient } from './lib/AyanzaClient';
+import { AyanzaClient } from '@ayanza/api';
 
 const client = new AyanzaClient({ token: 'your_token_here' });
 
