@@ -43,11 +43,31 @@ The Widget API is designed for managing notes and database items. It offers meth
 
 Sample usage:
 ```typescript
+// Get a widget
 const widget = await client.widget.get('widget_id');
+
+// Create a new widget
 const newWidget = await client.widget.create('New Widget', null);
+
+// Update an existing widget
 const updatedWidget = await client.widget.update('widget_id', 'Updated Widget');
+
+// Delete a widget
 await client.widget.delete('widget_id');
+
+// Search for a widget
 const searchedWidgets = await client.widget.search([{ property: 'title', operator: '==', value: 'New Widget' }]);
+
+// Practical use-case: Create a new widget, update it, and then delete it
+const tempWidget = await client.widget.create('Temp Widget', null);
+await client.widget.update(tempWidget.id, 'Updated Temp Widget');
+await client.widget.delete(tempWidget.id);
+
+// Practical use-case: Search for a widget and if it exists, delete it
+const widgetsToDelete = await client.widget.search([{ property: 'title', operator: '==', value: 'Old Widget' }]);
+if (widgetsToDelete.length > 0) {
+    await client.widget.delete(widgetsToDelete[0].id);
+}
 ```
 
 ## Schema
